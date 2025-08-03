@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>resume</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <!-- <script src="./js/marked.min.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      :root {
+        /* classic-color */
+        /* --dark-blue: #2c3e50;
+        --blue: #3498db;
+        --gray-white: #f5f5f5;
+        --light-gray: #e0e0e0; */
+
+        /* butterfly-color */
+        /* --grown: #3A2802;
+        --green: #0F8041;
+        --lake-blue: #00C3A5;
+        --mint: #4AE6CE;
+        --yellow: #E3FFA9; */
+
+        --primary-color: #03b298;
+        --accent-color: #268f55;
+        --text-color: #333;
+        --resume-width: 800px;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body {
+        background-color: #f9f9f9;
+        color: var(--text-color);
+        line-height: 1.6;
+      }
+
+      .container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      header {
+        text-align: center;
+        padding: 20px 0;
+      }
+
+      header h1 {
+        color: var(--primary-color);
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      .main-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+      }
+
+      @media (max-width: 1024px) {
+        .main-content {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .editor-section,
+      .preview-section {
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        overflow: hidden;
+      }
+
+      .section-header {
+        padding: 15px 20px;
+        background-color: var(--primary-color);
+        color: white;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      #markdown-input {
+        width: 100%;
+        min-height: 600px;
+        border: none;
+        padding: 20px;
+        resize: vertical;
+        font-family: "Consolas", "Monaco", monospace;
+        font-size: 14px;
+        line-height: 1.6;
+      }
+
+      #markdown-input:focus {
+        outline: none;
+      }
+
+      .preview-container {
+        padding: 20px;
+        height: 600px;
+        overflow-y: auto;
+        display: flex;
+        justify-content: center;
+      }
+
+      #resume-preview {
+        width: var(--resume-width);
+        background: white;
+        padding: 60px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        position: relative;
+        margin-bottom: 20px;
+      }
+
+      /* 简历专用样式 */
+      #resume-preview h1 {
+        color: var(--primary-color);
+        margin-bottom: 5px;
+        font-size: 28px;
+        border-bottom: 2px solid var(--accent-color);
+        padding-bottom: 8px;
+      }
+
+      #resume-preview .contact-info {
+        margin-bottom: 25px;
+        color: #666;
+        font-size: 14px;
+      }
+
+      #resume-preview .contact-info span {
+        margin-right: 15px;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+      }
+
+      #resume-preview h2 {
+        color: var(--primary-color);
+        margin: 20px 0 10px;
+        font-size: 18px;
+        border-bottom: 1px solid var(--border-color);
+        padding-bottom: 5px;
+      }
+
+      #resume-preview h3 {
+        font-size: 16px;
+        margin: 12px 0 5px;
+        color: #444;
+      }
+
+      #resume-preview p {
+        margin-bottom: 10px;
+      }
+
+      #resume-preview ul {
+        margin: 0 0 15px 25px;
+      }
+
+      #resume-preview li {
+        margin-bottom: 5px;
+      }
+
+      #resume-preview .experience-item,
+      #resume-preview .education-item {
+        margin-bottom: 15px;
+      }
+
+      #resume-preview .period {
+        color: #666;
+        font-style: italic;
+        font-size: 14px;
+      }
+
+      .controls {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin: 0 0 20px 0;
+        flex-wrap: wrap;
+      }
+
+      button {
+        background-color: var(--accent-color);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 500;
+        transition: all 0.2s;
+      }
+
+      button:hover {
+        background-color: #1b693e;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1><i class="fas fa-file-alt"></i> Make your resume easier!</h1>
+        <p>Write your resume in Markdown, style it with CSS, output to PDF</p>
+      </header>
+
+      <div class="controls">
+        <button id="load-template">
+          <i class="fas fa-file-import"></i> 加载简历模板
+        </button>
+        <button id="clear-all"><i class="fas fa-trash"></i> 清空内容</button>
+        <button id="unfold-html">
+          <i class="fas fa-external-link-alt"></i> 展开预览
+        </button>
+      </div>
+
+      <div class="main-content">
+        <div class="editor-section">
+          <div class="section-header">
+            <i class="fas fa-edit"></i> Markdown 编辑器
+          </div>
+          <textarea
+            id="markdown-input"
+            placeholder="请输入简历的 Markdown 内容..."
+          ></textarea>
+        </div>
+
+        <div class="preview-section">
+          <div class="section-header"><i class="fas fa-eye"></i> 简历预览</div>
+          <div class="preview-container">
+            <div id="resume-preview"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const input = document.getElementById("markdown-input");
+      const preview = document.getElementById("resume-preview");
+      const loadTemplateBtn = document.getElementById("load-template");
+      const clearAllBtn = document.getElementById("clear-all");
+      const unfoldHtmlBtn = document.getElementById("unfold-html");
+
+      // 配置 marked.js
+      marked.setOptions({
+        breaks: true,
+        gfm: true,
+      });
+
+      // 转换 Markdown 为简历 HTML
+      function convertToResume() {
+        const markdownText = input.value;
+        const html = marked.parse(markdownText);
+        preview.innerHTML = html;
+      }
+
+      // 加载简历模板
+      loadTemplateBtn.addEventListener("click", () => {
+        const template = `# 姓名
+<div class="contact-info">
+  <span><i class="fas fa-envelope"></i> rrr@email.com</span>
+  <span><i class="fas fa-phone"></i> 138-0000-0000</span>
+  <span><i class="fas fa-map-marker-alt"></i> 北京市</span>
+  <span><i class="fas fa-globe"></i> www.portfolio.com</span>
+</div>
+
+## 个人简介
+具有5年前端开发经验，擅长使用HTML、CSS、JavaScript构建响应式网站和Web应用，熟悉React、Vue等主流框架，注重用户体验和代码质量。
+
+## 工作经历
+
+### 高级前端开发工程师 | ABC科技有限公司
+<span class="period">2020年3月 - 至今</span>
+- 负责公司核心产品的前端架构设计和开发
+- 优化前端性能，将页面加载时间减少40%
+- 带领5人团队完成多个重要项目，获得公司年度优秀员工
+- 技术栈：React、TypeScript、Webpack、Ant Design
+
+### 前端开发工程师 | XYZ互联网公司
+<span class="period">2018年6月 - 2020年2月</span>
+- 参与电商平台的前端开发和维护
+- 实现多个交互组件，提升用户体验
+- 技术栈：Vue、JavaScript、Sass、Element UI
+
+## 教育背景
+
+### 计算机科学与技术 | 某某大学 | 本科
+<span class="period">2014年9月 - 2018年6月</span>
+- 获得校级优秀毕业生称号
+- 参与多项校园技术竞赛并获奖
+
+## 技能专长
+- 前端技术：HTML5、CSS3、JavaScript(ES6+)、TypeScript
+- 框架库：React、Vue、jQuery、Bootstrap、Tailwind CSS
+- 工具：Webpack、Git、npm/yarn、VS Code
+- 其他：响应式设计、性能优化、跨浏览器兼容、RESTful API
+
+## 项目经验
+
+### 企业管理系统
+- 负责系统前端架构设计和核心模块开发
+- 使用React+TypeScript实现，提高了代码可维护性
+- 实现了复杂的数据可视化和权限管理功能
+
+### 移动电商应用
+- 开发基于Vue的移动端单页应用
+- 优化移动端体验，适配各种屏幕尺寸
+- 实现离线缓存功能，提升弱网环境下的使用体验
+`;
+        input.value = template;
+        convertToResume();
+      });
+
+      // 清空内容
+      clearAllBtn.addEventListener("click", () => {
+        if (confirm("确定要清空所有内容吗？")) {
+          input.value = "";
+          preview.innerHTML = "";
+        }
+      });
+
+      // 展开预览区域
+      unfoldHtmlBtn.addEventListener("click", () => {
+        // 切换展开状态类
+        mainContent.classList.toggle("expanded");
+        previewSection.classList.toggle("expanded");
+
+        // 同步更新Markdown内容（确保展开状态下内容也是最新的）
+        convertToResume();
+
+        // 平滑滚动到预览区域
+        if (mainContent.classList.contains("expanded")) {
+          previewSection.scrollIntoView({ behavior: "smooth" });
+        }
+      });
+
+      // 监听输入变化
+      input.addEventListener("input", convertToResume);
+
+      // 初始加载模板
+      loadTemplateBtn.click();
+    </script>
+  </body>
+</html>
