@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>resume</title>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <!-- <script src="./js/marked.min.js"></script> -->
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="./js/marked.min.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script> -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
@@ -30,7 +30,6 @@
         --accent-color: #268f55;
         --text-color: #333;
         --border-color: #e0e0e0;
-        --resume-width: 800px;
       }
 
       * {
@@ -49,6 +48,11 @@
 
       /* 仅在打印时生效 */
       @media print {
+        @page {
+          size: A4;
+          padding: 0;
+          margin: 0;
+        }
         body,
         .print-container {
           background-color: white;
@@ -133,17 +137,13 @@
         padding: 20px;
         height: 600px;
         overflow-y: auto;
-        display: flex;
-        justify-content: center;
+        display: block; /* flex 会干预子元素尺寸导致 resume-preview 截断，block 内容自然撑开 */
       }
 
       #resume-preview {
-        width: var(--resume-width);
         background: white;
-        padding: 60px;
+        padding: 40px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        position: relative;
-        margin-bottom: 20px;
       }
 
       /* 自定义转换样式，同时应用于预览和展开 */
@@ -247,7 +247,7 @@
       /* 打印预览模式 print-mode 样式 */
       .print-mode {
         background-color: white;
-        padding: 40px;
+        padding: 20px;
       }
 
       .print-mode .container {
@@ -262,7 +262,7 @@
       .print-mode .print-container {
         display: flex !important;
         justify-content: center;
-        padding: 40px;
+        padding: 20px;
       }
 
       .print-mode .print-close {
