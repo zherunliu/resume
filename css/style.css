@@ -245,6 +245,8 @@ button:hover {
 .print-mode {
   background-color: white;
   padding: 20px;
+  display: flex;
+  justify-content: center;
 }
 
 .print-mode .container {
@@ -257,7 +259,8 @@ button:hover {
 }
 
 .print-mode .print-container {
-  display: flex !important;
+  width: 1000px;
+  display: flex;
   justify-content: center;
   padding: 20px;
 }
