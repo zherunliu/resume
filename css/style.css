@@ -43,7 +43,6 @@ body {
     line-height: 1.4 !important;
     font-size: 14px !important;
   }
-
   #print-resume-preview h1 {
     font-size: 22px !important;
   }
@@ -259,10 +258,14 @@ button:hover {
 }
 
 .print-mode .print-container {
-  width: 1000px;
+  width: 750px;
   display: flex;
   justify-content: center;
   padding: 20px;
+}
+
+#print-resume-preview {
+  width: 100%;
 }
 
 .print-mode .print-close {
