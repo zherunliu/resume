@@ -76,11 +76,17 @@
       });
 
       // 转换 Markdown 为简历 HTML - 同时更新两个预览区域
+      let timer;
       function convertToResume() {
         const markdownText = input.value;
         const html = marked.parse(markdownText);
         preview.innerHTML = html;
         printPreview.innerHTML = html;
+        if (timer) return;
+        timer = setTimeout(function () {
+          localStorage.setItem("userInput", input.value);
+          timer = undefined;
+        }, 3000);
       }
 
       // 加载简历模板
@@ -173,7 +179,12 @@
       input.addEventListener("input", convertToResume);
 
       // 初始加载模板
-      loadTemplateBtn.click();
+      if (localStorage.getItem("userInput")) {
+        input.value = localStorage.getItem("userInput");
+        convertToResume();
+      } else {
+        loadTemplateBtn.click();
+      }
     </script>
   </body>
 </html>
